@@ -1,0 +1,25 @@
+version: '2'
+services:
+   db:
+        image: postgres:13-alpine
+        environment:
+                - POSTGRES_USER=odoo
+                - POSTGRES_PASSWORD=odoo
+                - POSTGRES_DB=postgres
+                - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+                - coursedb=/var/lib/postgresql/data/pgdata
+   odoo:
+        image: odoo:12
+        command: --dev=all
+        ports:
+                - 8069:8069
+        links:
+                - db:db
+        volumes:
+                - ./config:/etc/odoo
+                - .:/mnt/extra-addons
+                - coursesodoo:/var/lib/odoo
+volumes:
+        coursedb:
+        coursesodoo:

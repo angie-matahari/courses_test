@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- res.partner inherit kanban view -->
+    <record id="res_partner_kanban_view" model="ir.ui.view">
+      <field name="name">res.partner.inherit.courses.view.kanban</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+      <field name="arch" type="xml">
+        <field name="mobile" position="after">
+          <field name="courses_enrolled_count"/>
+          <field name="courses_instructor_count"/>
+        </field>
+        <xpath expr="//div[hasclass('oe_kanban_partner_links')]" position="inside">
+          <span t-if="record.courses_enrolled_count.value&gt;0" class="badge badge-pill"><i class="fa fa-fw fa-usd" role="img" aria-label="Courses Enrolled" title="Enrolled Courses"/><t t-esc="record.courses_enrolled_count.value"/></span>
+          <span t-if="record.courses_instructor_count.value&gt;0" class="badge badge-pill"><i class="fa fa-fw fa-usd" role="img" aria-label="Courses Teaching" title="Teaching Courses"/><t t-esc="record.courses_instructor_count.value"/></span>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- res.partner inherit search view -->
+    <record id="view_res_partner_filter" model="ir.ui.view">
+      <field name="name">res.partner.inherit.view.search</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_res_partner_filter"/>
+      <field name="arch" type="xml">
+        <xpath expr="//separator[3]" position="after">
+          <filter name="instructors" string="Instructors" domain="[('instructor', '=', True)]"/>
+          <filter name="students" string="Students" domain="[('enrolled_course_ids', '=', True)]"/>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- res.partner inherit form view -->
+    <record id="view_partner_form" model="ir.ui.view">
+      <field name="name">res.partner.inherit.view.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='category_id']" position="before">
+          <field name="instructor" groups='courses.group_courses_admin'/>
+        </xpath>
+        <button name="toggle_active" position="before">
+          <button class="oe_stat_button" type="object" name="action_open_student_lessons" attrs="{'invisible': [('is_company', '=', True)]}" icon="fa-files-o">
+            <field string="Student Lessons" name="lessons_enrolled_count" widget="statinfo"/>
+          </button>
+          <button class="oe_stat_button" type="object" name="action_open_instructor_lessons" attrs="{'invisible': ['|',('is_company', '=', True),('instructor', '=', False)]}" icon="fa-files-o">
+            <field string="Instructor Lessons" name="lessons_teaching_count" widget="statinfo"/>
+          </button>
+        </button>
+        <xpath expr="//notebook" position="inside">
+          <page name="instructor_lessons" string="Instructor Lessons" attrs="{'invisible': [('instructor', '=', False)]}">
+            <field name="teaching_lesson_ids" options="{'no_edit': True, 'no_create': True}">
+              <tree>
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="course_id"/>
+                <field name="date_scheduled"/>
+                <field name="duration"/>
+                <field name="students_enrolled_count"/>
+                <field name="students_attended_count"/>
+              </tree>
+            </field>
+          </page>
+          <page name="student_lessons" string="Student Lessons">
+            <field name="enrolled_lesson_ids" options="{'no_edit': True, 'no_create': True}">
+              <tree>
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="course_id"/>
+                <field name="date_scheduled"/>
+                <field name="duration"/>
+                <field name="students_enrolled_count"/>
+                <field name="students_attended_count"/>
+              </tree>
+            </field>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

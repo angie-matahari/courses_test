@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_course_course_student,Student Course Access,model_course_course,courses.group_courses_student,1,0,0,0
+access_course_course_instructor,Instructor Course Access,model_course_course,courses.group_courses_instructor,1,1,0,0
+access_course_course_admin,Admin Course Access,model_course_course,courses.group_courses_admin,1,1,1,1
+access_course_lesson_student,Student Lesson Access,model_course_lesson,courses.group_courses_student,1,0,0,0
+access_course_lesson_instructor,Instructor Lesson Access,model_course_lesson,courses.group_courses_instructor,1,1,1,1
+access_course_lesson_admin,Admin Lesson Access,model_course_lesson,courses.group_courses_admin,1,1,1,1
+access_lesson_room_student,Student Lesson Room Access,model_lesson_room,courses.group_courses_student,1,0,0,0
+access_lesson_room_instructor,Instructor Lesson Room Access,model_lesson_room,courses.group_courses_instructor,1,1,0,0
+access_lesson_room_admin,Admin Lesson Room Access,model_lesson_room,courses.group_courses_admin,1,1,1,1

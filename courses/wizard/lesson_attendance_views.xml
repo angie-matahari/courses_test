@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <!-- lesson.attendance form view -->
+    <record id="lesson_attendance_view_form" model="ir.ui.view">
+      <field name="name">lesson.attendance.view.form</field>
+      <field name="model">lesson.attendance</field>
+      <field name="arch" type="xml">
+        <form string="Lesson Attendance">
+          <sheet>
+            <group>
+              <group>
+                <field name="lesson_id" readonly="1" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+              </group>
+            </group>
+            <notebook>
+              <page name="attendance_lines" string="Attendance Lines">
+                <field name="attendance_ids">
+                  <tree editable="bottom" delete="false" create="false">
+                    <field name="student_id" options="{'no_create': True, 'no_open': True}" readonly="1" force_save="1"/>
+                    <field name="attended" readonly="0" force_save="1"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <footer>
+            <button name="action_take_attendance" string="Take Attendance" type="object" class="oe_highlight"/>
+            <button special="cancel" string="Cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <!-- lesson.attendance action window -->
+    <record id="lesson_attendance_action" model="ir.actions.act_window">
+      <field name="name">Lesson Attendance</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">lesson.attendance</field>
+      <field name="view_mode">form</field>
+      <field name="view_type">form</field>
+      <field name="view_id" ref="lesson_attendance_view_form"/>
+      <field name="context">{'default_lesson_id': active_id}</field>
+      <field name="target">new</field>
+    </record>
+  </data>
+</odoo>
