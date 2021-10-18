@@ -1,4 +1,4 @@
-# courses_test
+# Course
 Courses Module for KOKO Networks Interview
 
 Create courses with related lessons. 
